@@ -17,6 +17,7 @@ spec:
     # Exported path of your NFS server
     path: "/html"
 
+
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -34,3 +35,30 @@ spec:
     server: nfs01
     # Exported path of your NFS server
     path: "/mysql"
+
+#FOR. AWS EFS
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: efs-persist
+spec:
+  capacity:
+    storage: 123Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: fs-${EFS_ID}.efs.us-east-1.amazonaws.com
+    path: "/"
+#AWS Claims    
+ kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: efs-persist
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 11Gi  
+    
